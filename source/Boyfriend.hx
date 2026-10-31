@@ -13,7 +13,7 @@ class Boyfriend extends Character
 	public var stunned:Bool = false;
 
 	public function new(x:Float, y:Float) {
-		super(x, y, 'assets/images/characters/bf/bf');
+		super(x, y, 'assets/images/characters/bf/spritemap1');
 
 		anim.addBySymbol('idle', 'idle', 24, false);
 		anim.addBySymbol('singLEFT', 'left', 24, false);
