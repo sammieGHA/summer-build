@@ -18,17 +18,18 @@ class Character extends FlxAnimate
 	public var healthColor:FlxColor = FlxColor.WHITE;
 	public var holdTimer:Float = 0;
 	public var singDuration:Float = 4;
+	public var icon:String;
 
-	public function new(x:Float, y:Float, ?character:String = "bf", ?isPlayer:Bool = false)
+	public function new(x:Float, y:Float, ?character:String = "bf", ?isPlayer:Bool = false, ?atlasPath:Null<String> = null)
 	{
 		animOffsets = new Map<String, Array<Dynamic>>();
-		super(x, y);
+		super(x, y, atlasPath);
 
 		curCharacter = character;
 		this.isPlayer = isPlayer;
 
 		var tex:FlxAtlasFrames;
-		antialiasing = true;
+		antialiasing = false;
 
 		switch (curCharacter)
 		{
@@ -79,40 +80,24 @@ class Character extends FlxAnimate
 				addOffset("singDOWN", 0, -30);
 
 				healthColor = 0xFF76428a;
-			case 'spooky':
-				tex = FlxAtlasFrames.fromSparrow(AssetPaths.spooky_kids_assets__png, AssetPaths.spooky_kids_assets__xml);
+			case 'sugar-bandu':
+				tex = FlxAtlasFrames.fromSparrow(Paths.images('characters/DIDY DESPAIR'), Paths.images('characters/DIDY DESPAIR', '.xml'));
 				frames = tex;
-				animation.addByPrefix('singUP', 'spooky UP NOTE', 24, false);
-				animation.addByPrefix('singDOWN', 'spooky DOWN note', 24, false);
-				animation.addByPrefix('singLEFT', 'note sing left', 24, false);
-				animation.addByPrefix('singRIGHT', 'spooky sing right', 24, false);
-				animation.addByIndices('danceLeft', 'spooky dance idle', [0, 2, 6], "", 12, false);
-				animation.addByIndices('danceRight', 'spooky dance idle', [8, 10, 12, 14], "", 12, false);
-
-				addOffset('danceLeft');
-				addOffset('danceRight');
-
-				addOffset("singUP", -20, 26);
-				addOffset("singRIGHT", -130, -14);
-				addOffset("singLEFT", 130, -10);
-				addOffset("singDOWN", -50, -130);
-
-				playAnim('danceRight');
-			case 'monster':
-				tex = FlxAtlasFrames.fromSparrow(AssetPaths.Monster_Assets__png, AssetPaths.Monster_Assets__xml);
-				frames = tex;
-				animation.addByPrefix('idle', 'monster idle', 24);
-				animation.addByPrefix('singUP', 'monster up note', 24, false);
-				animation.addByPrefix('singDOWN', 'monster down', 24, false);
-				animation.addByPrefix('singLEFT', 'Monster left note', 24, false);
-				animation.addByPrefix('singRIGHT', 'Monster Right note', 24, false);
+				animation.addByPrefix('idle', 'idle instance 10', 24);
+				animation.addByPrefix('singUP', 'up instance 10', 24);
+				animation.addByPrefix('singRIGHT', 'right instance 10', 24);
+				animation.addByPrefix('singDOWN', 'down instance 10', 24);
+				animation.addByPrefix('singLEFT', 'left instance 10', 24);
+				playAnim('idle');
 
 				addOffset('idle');
-				addOffset("singUP", -20, 50);
-				addOffset("singRIGHT", -51);
-				addOffset("singLEFT", -30);
-				addOffset("singDOWN", -30, -40);
-				playAnim('idle');
+				addOffset("singUP");
+				addOffset("singRIGHT");
+				addOffset("singLEFT");
+				addOffset("singDOWN");
+
+				healthColor = 0xFF46F501;
+				icon = 'sugar';
 		}
 	}
 
@@ -146,11 +131,10 @@ class Character extends FlxAnimate
 		animation.play(AnimName, Force, Reversed, Frame);
 		holdTimer = 0;
 
-		var daOffset = animOffsets.get(animation.curAnim.name);
-		if (animOffsets.exists(animation.curAnim.name))
-		{
+		var daOffset = animOffsets.get(AnimName);
+
+		if (daOffset != null)
 			offset.set(daOffset[0], daOffset[1]);
-		}
 
 		if (curCharacter == 'gf')
 		{

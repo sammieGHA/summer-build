@@ -25,7 +25,7 @@ class CreditBar extends FlxSpriteGroup {
         add(bg);
 
         displayText = new FlxText(-400, 35, bg.width, text.join('\n'));
-        displayText.setFormat(Paths.fonts('comic'), 36);
+        displayText.setFormat(Paths.fonts('comic'), 30);
         displayText.alignment = CENTER;
         add(displayText);
 
